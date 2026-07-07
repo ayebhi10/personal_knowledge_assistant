@@ -1,0 +1,1 @@
+Hey this is a personal chatbot, used to store our documents in a model for us, so that we don't have to iterate through documents and find what we need, instead just use this py project, get all your documents in one place, chunk it and embed it, and then query whatever information you need.
