@@ -46,6 +46,8 @@ def run_command(command: str, description: str):
 
 def main():
     project_root = Path(__file__).parent.resolve()
+    env_file = project_root / ".env"
+    env_file.write_text(f"PROJECT_ROOT={project_root}\n", encoding="utf-8")
     logger.info("Initializing environment setup script.")
     
     # 1. Directory Structure Creation

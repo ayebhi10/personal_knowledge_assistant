@@ -1,19 +1,28 @@
 # providers.py
-from enum import Enum
+from functools import lru_cache
 from model import EmbeddingModel, LLMModel
+from registry import Registry
 
-class Provider(str, Enum):
-    OLLAMA = "ollama"
-    OPENAI = "openai"
+embedding_registry: Registry[EmbeddingModel, object] = Registry("embedding model")
+llm_registry: Registry[LLMModel, object] = Registry("LLM")
 
-EMBEDDING_PROVIDER: dict[EmbeddingModel, Provider] = {
-    EmbeddingModel.OLLAMA_NOMIC: Provider.OLLAMA,
-    EmbeddingModel.OLLAMA_MXBAI: Provider.OLLAMA,
-    EmbeddingModel.OPENAI_3_SMALL: Provider.OPENAI,
-}
+@embedding_registry.register(EmbeddingModel.OLLAMA_NOMIC)
+@embedding_registry.register(EmbeddingModel.OLLAMA_MXBAI)
+def _load_ollama_embedding(model: EmbeddingModel):
+    from langchain_ollama import OllamaEmbeddings
+    return OllamaEmbeddings(model=model.value)
 
-LLM_PROVIDER: dict[LLMModel, Provider] = {
-    LLMModel.OLLAMA_LLAMA3: Provider.OLLAMA,
-    LLMModel.OLLAMA_QWEN: Provider.OLLAMA,
-    LLMModel.GPT4O: Provider.OPENAI,
-}
+@llm_registry.register(LLMModel.OLLAMA_LLAMA3)
+@llm_registry.register(LLMModel.OLLAMA_QWEN)
+def _load_ollama_llm(model: LLMModel):
+    from langchain_ollama import ChatOllama
+    return ChatOllama(model=model.value, temperature=0)
+
+
+@lru_cache(maxsize=None)
+def get_embedding_model(model: EmbeddingModel):
+    return embedding_registry.create(model, model)
+
+@lru_cache(maxsize=None)
+def get_llm(model: LLMModel):
+    return llm_registry.create(model, model)
