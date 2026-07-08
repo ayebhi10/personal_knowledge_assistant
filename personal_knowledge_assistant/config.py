@@ -18,5 +18,5 @@ PROJECT_ROOT = os.getenv("PROJECT_ROOT")
 DOCS_DIR = os.path.join(PROJECT_ROOT, "data", "documents")
 DB_DIR = os.path.join(PROJECT_ROOT, "data", "vector_db")
 
-def db_dir_for(embedding_model) -> Path:
-    return DB_DIR / embedding_model.value.replace("/", "_")
+def db_dir_for(embedding_model) -> str:
+    return os.path.join(DB_DIR, embedding_model.value.replace("/", "_"))

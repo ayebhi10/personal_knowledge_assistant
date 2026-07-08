@@ -14,6 +14,7 @@ def _load_ollama_embedding(model: EmbeddingModel):
 
 @llm_registry.register(LLMModel.OLLAMA_LLAMA3)
 @llm_registry.register(LLMModel.OLLAMA_QWEN)
+@llm_registry.register(LLMModel.OLLAMA_GEMMA3)
 def _load_ollama_llm(model: LLMModel):
     from langchain_ollama import ChatOllama
     return ChatOllama(model=model.value, temperature=0)

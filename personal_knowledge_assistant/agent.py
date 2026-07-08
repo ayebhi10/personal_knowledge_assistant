@@ -1,6 +1,6 @@
 import logging
 from typing import Any
-from langchain.agents.agent import create_agent
+from langchain.agents import create_agent
 from langchain.agents.middleware import AgentMiddleware, AgentState
 from langchain_core.documents import Document
 from langchain_core.messages import SystemMessage
@@ -37,11 +37,13 @@ class RetrieveDocumentsMiddleware(AgentMiddleware[State]):
         }
     
 
-def build_agent(llm_model: LLMModel, vector_store) -> Any:
+def build_agent(llm_model: LLMModel, vector_store):
     llm = get_llm(llm_model)
+
     agent = create_agent(
-        llm=llm,
+        model=llm,
+        tools=[],
         middleware=[RetrieveDocumentsMiddleware(vector_store)],
-        state_cls=State,
+        state_schema=State,
     )
     return agent

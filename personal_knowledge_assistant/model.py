@@ -7,6 +7,7 @@ class EmbeddingModel(str, Enum):
 
 
 class LLMModel(str, Enum):
-    OLLAMA_QWEN = "qwen-3.5:4b"
+    OLLAMA_QWEN   = "qwen-3.5:4b"
+    OLLAMA_GEMMA3 = "gemma3:4b"
     OLLAMA_LLAMA3 = "llama3.1"
-    GPT4O = "gpt-4o"
+    GPT4O         = "gpt-4o"

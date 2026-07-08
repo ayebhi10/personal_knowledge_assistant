@@ -14,22 +14,23 @@ def run_agent(embedding_model: EmbeddingModel, llm_model: LLMModel):
         if not question or question.lower() == "exit":
             break
 
-        result = agent.inoke({
+        result = agent.invoke({
             "messages": [{"role": "user", "content": question}],
             "context": [],
         })
 
-        logging.info(f"Agent response: {result}")
-        logging.info("Sources : ")
+        print(f"\nAnswer: {result['messages'][-1].content}\n")
 
+        print("Sources:")
         seen = set()
         for doc in result.get("context", []):
             source = doc.metadata.get("source", "unknown")
             if source not in seen:
-                logging.info(f"- {source}")
+                print("-", source)
                 seen.add(source)
+        print()
 
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
-    run_agent(EmbeddingModel.OLLAMA_NOMIC, LLMModel.OLLAMA_LLAMA3)
+    run_agent(EmbeddingModel.OLLAMA_NOMIC, LLMModel.OLLAMA_GEMMA3)
