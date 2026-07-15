@@ -8,6 +8,7 @@ llm_registry: Registry[LLMModel, object] = Registry("LLM")
 
 @embedding_registry.register(EmbeddingModel.OLLAMA_NOMIC)
 @embedding_registry.register(EmbeddingModel.OLLAMA_MXBAI)
+@embedding_registry.register(EmbeddingModel.QWEN3_EMBEDD)
 def _load_ollama_embedding(model: EmbeddingModel):
     from langchain_ollama import OllamaEmbeddings
     return OllamaEmbeddings(model=model.value)
@@ -15,6 +16,7 @@ def _load_ollama_embedding(model: EmbeddingModel):
 @llm_registry.register(LLMModel.OLLAMA_LLAMA3)
 @llm_registry.register(LLMModel.OLLAMA_QWEN)
 @llm_registry.register(LLMModel.OLLAMA_GEMMA3)
+@llm_registry.register(LLMModel.OLLAMA_GEMMA4)
 def _load_ollama_llm(model: LLMModel):
     from langchain_ollama import ChatOllama
     return ChatOllama(model=model.value, temperature=0)

@@ -33,4 +33,4 @@ def run_agent(embedding_model: EmbeddingModel, llm_model: LLMModel):
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
-    run_agent(EmbeddingModel.OLLAMA_NOMIC, LLMModel.OLLAMA_GEMMA3)
+    run_agent(EmbeddingModel.OLLAMA_NOMIC, LLMModel.OLLAMA_GEMMA4)
